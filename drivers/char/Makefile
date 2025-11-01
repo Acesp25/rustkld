@@ -2,6 +2,6 @@ OBJECTDIR?=target/objects
 
 KMOD=char_dev
 OBJS=$(OBJECTDIR)/*.o
-SRCS=char_dev.c
+SRCS=../../kernel/dummy.c
 
 .include <bsd.kmod.mk>

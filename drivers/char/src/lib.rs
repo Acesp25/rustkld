@@ -4,9 +4,12 @@
 mod module_events;
 mod char_device;
 
+use kernel::declare_module;
 use kernel::{module, ModEventType, moduledata_t};
-use core::ffi::c_void;
-use libc::{c_int, EOPNOTSUPP};
+use kernel::{sysinit_elem_order_SI_ORDER_ANY, sysinit_sub_id_SI_SUB_DRIVERS};
+
+use core::ptr::null_mut;
+use libc::{c_int, c_void, EOPNOTSUPP};
 use module_events::Events;
 
 extern crate alloc;
@@ -42,8 +45,15 @@ pub unsafe extern "C" fn module_event(
 }
 
 #[unsafe(no_mangle)]
-pub static mut char_mod: moduledata_t = moduledata_t {
+pub static char_mod: moduledata_t = moduledata_t {
     name: c"CharacterDevice".as_ptr(),
     evhand: Some(module_event),
-    priv_: core::ptr::null_mut(),
+    priv_: null_mut(),
 };
+
+declare_module!(
+    char_dev,
+    char_mod,
+    sysinit_sub_id_SI_SUB_DRIVERS,
+    sysinit_elem_order_SI_ORDER_ANY
+);
