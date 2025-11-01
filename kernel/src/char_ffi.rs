@@ -2,7 +2,7 @@ use crate::{cdev, uio, thread};
 use libc::{c_int, EFAULT};
 extern crate alloc;
 use alloc::boxed::Box;
-use crate::{Cdevsw, uprintf};
+use crate::Cdevsw;
 use crate::uio_wrap::Uio;
 use crate::cdev_wrap::Cdev;
 use crate::flags::{Ioflag, Oflags};
