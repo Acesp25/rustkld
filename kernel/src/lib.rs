@@ -4,6 +4,8 @@
 #![allow(non_camel_case_types)]
 #![allow(non_snake_case)]
 
+pub use paste::paste as __paste;
+
 use core::panic::PanicInfo;
 #[panic_handler]
 fn panic(_info: &PanicInfo) -> ! {
@@ -14,6 +16,10 @@ pub extern crate libc;
 
 #[macro_use]
 mod macros;
+unsafe impl Sync for mod_metadata {}
+unsafe impl Sync for moduledata{}
+unsafe impl Sync for sysinit {}
+unsafe impl Sync for sysinit__bindgen_ty_1 {}
 
 mod bindings;
 pub use bindings::imports::*;

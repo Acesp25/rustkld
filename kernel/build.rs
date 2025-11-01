@@ -28,6 +28,8 @@ fn main() {
 
         .allowlist_function("dev_ref")
         .allowlist_function("dev_rel")
+
+        .allowlist_function("module_register_init")
     
         // Allowed Types
         .allowlist_type("uio")
@@ -36,6 +38,11 @@ fn main() {
         .allowlist_type("cdevsw")
         
         .allowlist_type("moduledata_t")
+        .allowlist_type("mod_metadata")
+        .allowlist_type("mod_depend")
+    
+        .allowlist_type("sysinit")
+        .allowlist_type("sysinit_sub_id")
 
         // Allowed Variables
         .allowlist_var("M_DEVBUF")
@@ -48,6 +55,12 @@ fn main() {
         .allowlist_var("GID_WHEEL")
 
         .allowlist_var("D_VERSION")
+
+        .allowlist_var("__FreeBSD_version")
+
+        .allowlist_var("MDT_STRUCT_VERSION")
+        .allowlist_var("MDT_DEPEND")
+        .allowlist_var("MDT_MODULE")
 
         // End of allowlist
 
