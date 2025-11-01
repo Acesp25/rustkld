@@ -3,9 +3,12 @@
 
 mod hello;
 
+use kernel::declare_module;
 use kernel::{module, moduledata_t, ModEventType};
-use core::ffi::c_void;
-use libc::{c_int, EOPNOTSUPP};
+use kernel::{sysinit_elem_order_SI_ORDER_ANY, sysinit_sub_id_SI_SUB_DRIVERS};
+
+use core::ptr::null_mut;
+use libc::{c_int, c_void, EOPNOTSUPP};
 use hello::HelloWorld;
 
 /// # Safety
@@ -33,8 +36,15 @@ pub unsafe extern "C" fn module_event(
 }
 
 #[unsafe(no_mangle)]
-pub static mut hello_mod: moduledata_t = moduledata_t {
+pub static hello_mod: moduledata_t = moduledata_t {
     name: c"hello".as_ptr(),
     evhand: Some(module_event),
-    priv_: core::ptr::null_mut(),
+    priv_: null_mut(),
 };
+
+declare_module!(
+    hello,
+    hello_mod,
+    sysinit_sub_id_SI_SUB_DRIVERS,
+    sysinit_elem_order_SI_ORDER_ANY
+);

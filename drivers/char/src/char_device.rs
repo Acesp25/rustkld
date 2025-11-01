@@ -6,7 +6,7 @@ use kernel::{make_dev_p, destroy_dev};
 use kernel::{D_VERSION, UID_ROOT, GID_WHEEL};
 use kernel::{MAKEDEV_WAITOK, MAKEDEV_CHECKNAME};
 use kernel::{Ioflag, Oflags};
-use kernel::{println, uprintf};
+use kernel::println;
 
 use alloc::boxed::Box;
 use alloc::vec::Vec;
@@ -37,7 +37,7 @@ impl EchoDevice {
             make_dev_p(MAKEDEV_CHECKNAME | MAKEDEV_WAITOK,
 		        &mut echo_dev,
                 cdevsw_ptr,
-                core::ptr::null_mut(),
+                ptr::null_mut(),
 		        UID_ROOT.try_into().unwrap(),
 		        GID_WHEEL.try_into().unwrap(),
 		        0o666,
