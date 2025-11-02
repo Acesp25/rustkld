@@ -2,7 +2,6 @@ task:
   env:
     HOME: /tmp # cargo needs it
     VERSION: nightly-2025-05-18
-    SYSDIR: $HOME/freebsd-src/sys
   name: FreeBSD 15.0-CURRENT amd64
   freebsd_instance:
     image_family: freebsd-15-0-snap
@@ -20,6 +19,7 @@ task:
     fingerprint_script: cat Cargo.lock || echo ""
   build_script:
     - . "$HOME/.cargo/env"
+    - export SYSDIR="$HOME/freebsd-src/sys"
     - cd drivers/hello
     - cargo make build-kmod
     - make clean && cargo clean
