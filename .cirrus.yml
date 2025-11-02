@@ -9,7 +9,6 @@ task:
     - fetch https://sh.rustup.rs -o rustup.sh
     - sh rustup.sh -y --profile=minimal --default-toolchain ${VERSION}-x86_64-unknown-freebsd
     - pkg install -y llvm19
-    - rustup component add rust-src
     - cargo install cargo-make
   cargo_cache:
     folder: $HOME/.cargo/registry
