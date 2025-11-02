@@ -8,20 +8,20 @@ task:
   setup_script:
     - fetch https://sh.rustup.rs -o rustup.sh
     - sh rustup.sh -y --profile=minimal --default-toolchain ${VERSION}-x86_64-unknown-freebsd
+    - . "$HOME/.cargo/env"
     - pkg install -y llvm19
+    - rustup component add rust-src
     - cargo install cargo-make
   cargo_cache:
     folder: $HOME/.cargo/registry
     fingerprint_script: cat Cargo.lock || echo ""
   build_script:
-    - . $HOME/.cargo/env
+    - . "$HOME/.cargo/env"
     - cd drivers/hello
     - cargo make build-kmod
-    - make clean
-    - cargo clean
+    - make clean && cargo clean
     - cd -
     - cd drivers/char
     - cargo make build-kmod
-    - make clean
-    - cargo clean
+    - make clean && cargo clean
   before_cache_script: rm -rf $HOME/.cargo/registry/index
