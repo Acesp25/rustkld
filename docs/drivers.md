@@ -61,22 +61,11 @@ OBJECTDIR?=target/objects
 
 KMOD=hello
 OBJS=$(OBJECTDIR)/*.o
-SRCS=hello.c
+SRCS=../../kernel/dummy.c
 
 .include <bsd.kmod.mk>
 ```
-It uses our generated objects folder and calls upon a .c file, hello.c in this case, as a dependency.
-This .c file simply takes in a moduledata struct defined in src/lib.rs and calls the DECLARE_MODULE macro.
-```C
-#include <sys/param.h>
-#include <sys/module.h>
-#include <sys/kernel.h>
-#include <sys/systm.h>
-
-extern struct moduledata hello_mod;
-
-DECLARE_MODULE(hello, hello_mod, SI_SUB_DRIVERS, SI_ORDER_MIDDLE);
-```
+It uses our generated objects folder and a blank .c file (dummy.c) to satisfy the make requirements and build our kernel module.
 
 ## General
 Both driver's lib.rs file is more or less the same. We have the unsafe function call to handle any incoming module's events and a public initialization of a moduledata_t struct used in our .c file. For example, this is how our echo driver's lib.rs looks:
@@ -117,6 +106,13 @@ pub static mut char_mod: moduledata_t = moduledata_t {
     evhand: Some(module_event),
     priv_: core::ptr::null_mut(),
 };
+
+declare_module!(
+    char_dev,
+    char_mod,
+    sysinit_sub_id_SI_SUB_DRIVERS,
+    sysinit_elem_order_SI_ORDER_ANY
+);
 ```
 How the events are being handled is where everything is different. The Hello World! driver just calls simple println! statements. However, the character driver is a bit more convoluted.
 
