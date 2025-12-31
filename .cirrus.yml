@@ -2,12 +2,12 @@ task:
   env:
     HOME: /tmp # cargo needs it
     VERSION: nightly-2025-05-18
-  name: FreeBSD 15.0-CURRENT amd64
+  name: FreeBSD 15.0-STABLE amd64
   freebsd_instance:
-    image_family: freebsd-15-0-snap
+    image_family: freebsd-15-0-amd64-zfs-snap
   setup_script:
     - pkg install -y git
-    - git clone --depth=1 https://github.com/freebsd/freebsd-src.git $HOME/freebsd-src
+    - git clone --depth=1 --branch stable/15 https://github.com/freebsd/freebsd-src.git $HOME/freebsd-src
     - fetch https://sh.rustup.rs -o rustup.sh
     - sh rustup.sh -y --profile=minimal --default-toolchain ${VERSION}-x86_64-unknown-freebsd
     - . "$HOME/.cargo/env"
