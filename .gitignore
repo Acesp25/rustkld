@@ -1,4 +1,5 @@
 kernel/target
+kernel/*.o
 
 drivers/**/*.ko
 drivers/**/*.o
