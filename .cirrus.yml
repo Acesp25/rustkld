@@ -1,8 +1,7 @@
 task:
   env:
     HOME: /tmp # cargo needs it
-    INSTALL_VERSION: nightly
-    RUN_VERSION: nightly-2025-05-18
+    VERSION: nightly-2025-05-18
   name: FreeBSD 15.0-STABLE amd64
   freebsd_instance:
     image_family: freebsd-15-0-amd64-zfs-snap
@@ -10,12 +9,11 @@ task:
     - pkg install -y git
     - git clone --depth=1 --branch stable/15 https://github.com/freebsd/freebsd-src.git $HOME/freebsd-src
     - fetch https://sh.rustup.rs -o rustup.sh
-    - sh rustup.sh -y --profile=minimal --default-toolchain ${INSTALL_VERSION}-x86_64-unknown-freebsd
+    - sh rustup.sh -y --profile=minimal --default-toolchain ${VERSION}-x86_64-unknown-freebsd
     - . "$HOME/.cargo/env"
+    - pkg install -y cargo-make
     - pkg install -y llvm19
     - rustup component add rust-src
-    - cargo install cargo-make
-    - rustup toolchain add ${RUN_VERSION} --profile minimal
   cargo_cache:
     folder: $HOME/.cargo/registry
     fingerprint_script: cat Cargo.lock || echo ""
